@@ -8,7 +8,9 @@ Features:
         int age;
         int some_int_value;
     };
+    
     ...
+    
     std::tuple<std::string, int, int> tuple {"Peter", 10, 20};
     MyStruct my_struct = cpp::to_struct<MyStruct>(tuple);
     ```
@@ -21,7 +23,10 @@ Features:
    std::tuple<std::string, int, int> tuple {"Peter", 10, 20};
    std::cout << tuple;
    ```
-   The output will be `{Peter, 10, 20}`
+   Output
+   ```
+   {Peter, 10, 20}
+   ```
 
 # Usage
 Include the header `utilities.hpp`. Nothing to compile
