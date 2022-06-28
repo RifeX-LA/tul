@@ -43,6 +43,19 @@ namespace cpp {
         return os;
     }
 
+    // Passing values from istream to tuple
+
+    template <typename CharT, typename Traits, typename Tuple, std::size_t ... Is>
+    void _put_from_istream(std::basic_istream<CharT, Traits>& is, Tuple& tuple, std::index_sequence<Is...>) {
+       (is >> ... >> std::get<Is>(tuple));
+    }
+
+    template <typename CharT, typename Traits, typename Tuple>
+    std::basic_istream<CharT, Traits>& operator >> (std::basic_istream<CharT, Traits>& is, Tuple& tuple) {
+        cpp::_put_from_istream(is, tuple, std::make_index_sequence<std::tuple_size<Tuple>{}>{});
+        return is;
+    }
+
 }
 
 #endif //UTILITIES_HPP

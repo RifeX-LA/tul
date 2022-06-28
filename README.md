@@ -27,6 +27,25 @@ Features:
    ```
    {Peter, 10, 20}
    ```
+   
+3. Put values from istream to tuple-like object
+   ```c++
+   using cpp::operator >>;
+   
+   std::tuple<std::string, int> tuple;
+   std::cin >> tuple;
+   std::cout << tuple;
+   ```
+   Input
+   ```
+   Hello 5
+   ```
+   
+   Output
+   
+   ```
+   {Hello, 5}
+   ```
 
 # Usage
 Include the header `utilities.hpp`. Nothing to compile
