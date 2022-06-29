@@ -43,7 +43,7 @@ namespace cpp {
         return os;
     }
 
-    // Passing values from istream to tuple
+    // Passing values from istream to tuple-like object
 
     template <typename CharT, typename Traits, typename Tuple, std::size_t ... Is>
     void _put_from_istream(std::basic_istream<CharT, Traits>& is, Tuple& tuple, std::index_sequence<Is...>) {

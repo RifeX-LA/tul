@@ -1,5 +1,5 @@
 # Overview
-This is the header only library to work with tuple-like objects (including `std::array`) \
+This is the header only library to work with tuple-like objects (`std::tuple`, `std::pair` and `std::array`) \
 Features:
 1. Get struct from tuple-like object 
     ```c++
@@ -14,7 +14,7 @@ Features:
     std::tuple<std::string, int, int> tuple {"Peter", 10, 20};
     MyStruct my_struct = cpp::to_struct<MyStruct>(tuple);
     ```
-   `my_struct` will contain values `"Peter"`, `10`, `20`
+   `my_struct` will contain values `Peter`, `10`, `20`
 
 2. Write tuple-like objects to ostream
    ```c++
@@ -30,6 +30,7 @@ Features:
    
 3. Put values from istream to tuple-like object
    ```c++
+   using cpp::operator <<;
    using cpp::operator >>;
    
    std::tuple<std::string, int> tuple;
