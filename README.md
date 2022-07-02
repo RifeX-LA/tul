@@ -51,6 +51,8 @@ Features:
 4. Get aggregate type fields count (since C++20)
    ```c++
    std::cout << cpp::aggregate_size_v<Person>;
+   or
+   std::cout << std::aggregate_size<Person>::value;
    ```
    Output
    ```
@@ -61,4 +63,4 @@ Features:
 Include the header `utilities.hpp`. Nothing to compile
 
 # Requirements
-C++17 (C++20 for `cpp::aggregate_size_v`)
+C++17 (C++20 for `cpp::aggregate_size`)
