@@ -1,5 +1,6 @@
 # Overview
-This is the header only library to work with aggregate types and tuple-like objects (`std::tuple`, `std::pair` and `std::array`) \
+This is the header only library to work with aggregate types and tuple-like objects (`std::tuple`, `std::pair` and `std::array`).
+
 Features:
 1. Get struct from tuple-like object 
     ```c++
@@ -16,6 +17,7 @@ Features:
     ```
    `person` will contain values `Peter`, `10`, `20`
 
+
 2. Write tuple-like objects to ostream
    ```c++
    using cpp::operator <<;
@@ -25,7 +27,7 @@ Features:
    ```
    Output
    ```
-   {Peter, 10, 20}
+   {"Peter", 10, 20}
    ```
    
 3. Put values from istream to tuple-like object
@@ -45,14 +47,14 @@ Features:
    Output
    
    ```
-   {Hello, 5}
+   {"Hello", 5}
    ```
    
-4. Get aggregate type fields count (since C++20)
+4. Get aggregate type fields count (*since C++20*)
    ```c++
    std::cout << cpp::aggregate_size_v<Person>;
    or
-   std::cout << std::aggregate_size<Person>::value;
+   std::cout << cpp::aggregate_size<Person>::value;
    ```
    Output
    ```

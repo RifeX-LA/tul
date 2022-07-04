@@ -3,6 +3,7 @@
 
 #include <utility>
 #include <ostream>
+#include <tuple>
 
 namespace cpp {
 
@@ -97,8 +98,15 @@ namespace cpp {
         }
 
         template <std::size_t I, typename CharT, typename Traits, typename Tuple>
-        void put_value_to_ostream(std::basic_ostream<CharT, Traits>& os, const Tuple& tuple, std::size_t tuple_size) {
-            os << std::get<I>(tuple);
+        void put_arg_to_ostream(std::basic_ostream<CharT, Traits>& os, const Tuple& tuple, std::size_t tuple_size) {
+            const auto& arg = std::get<I>(tuple);
+            if constexpr (std::is_constructible_v<std::basic_string_view<CharT, Traits>, decltype(arg)>) {
+                os << '\"' << std::basic_string_view<CharT, Traits>(arg) << '\"';
+            }
+            else {
+                os << arg;
+            }
+
             if (I < tuple_size - 1) {
                 os << ", ";
             }
@@ -107,7 +115,7 @@ namespace cpp {
         template <typename CharT, typename Traits, typename Tuple, std::size_t ... Is>
         void put_to_ostream(std::basic_ostream<CharT, Traits>& os, const Tuple& tuple, std::index_sequence<Is...>) {
             os << '{';
-            (put_value_to_ostream<Is>(os, tuple, sizeof...(Is)), ...);
+            (put_arg_to_ostream<Is>(os, tuple, sizeof...(Is)), ...);
             os << '}';
         }
 
@@ -124,7 +132,7 @@ namespace cpp {
     */
     template <typename T, typename Tuple>
     [[nodiscard]] constexpr T from_tuple(Tuple&& tuple) {
-        return detail::from_tuple<T>(std::forward<Tuple>(tuple), make_tuple_index_seq<std::decay_t<Tuple>> {});
+        return detail::from_tuple<T>(std::forward<Tuple>(tuple), make_tuple_index_seq<std::decay_t<Tuple>>{});
     }
 
     /**
