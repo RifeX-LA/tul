@@ -1,31 +1,33 @@
 # Overview
-This is the header only library to work with tuple-like objects (`std::tuple`, `std::pair` and `std::array`) \
+This is the header only library to work with aggregate types and tuple-like objects (`std::tuple`, `std::pair` and `std::array`).
+
 Features:
 1. Get struct from tuple-like object 
     ```c++
-    struct MyStruct {
+    struct Person {
         std::string name;
         int age;
-        int some_int_value;
+        double weight;
     };
     
     ...
     
-    std::tuple<std::string, int, int> tuple {"Peter", 10, 20};
-    MyStruct my_struct = cpp::to_struct<MyStruct>(tuple);
+    std::tuple<std::string, int, double> tuple {"Peter", 10, 20};
+    Person person = cpp::from_tuple<Person>(tuple);
     ```
-   `my_struct` will contain values `Peter`, `10`, `20`
+   `person` will contain values `Peter`, `10`, `20`
+
 
 2. Write tuple-like objects to ostream
    ```c++
    using cpp::operator <<;
 
-   std::tuple<std::string, int, int> tuple {"Peter", 10, 20};
+   std::tuple<std::string, int, double> tuple {"Peter", 10, 20};
    std::cout << tuple;
    ```
    Output
    ```
-   {Peter, 10, 20}
+   {"Peter", 10, 20}
    ```
    
 3. Put values from istream to tuple-like object
@@ -45,11 +47,22 @@ Features:
    Output
    
    ```
-   {Hello, 5}
+   {"Hello", 5}
+   ```
+   
+4. Get aggregate type fields count (*since C++20*)
+   ```c++
+   std::cout << cpp::aggregate_size_v<Person>;
+   or
+   std::cout << cpp::aggregate_size<Person>::value;
+   ```
+   Output
+   ```
+   3
    ```
 
 # Usage
 Include the header `utilities.hpp`. Nothing to compile
 
 # Requirements
-C++17
+C++17 (C++20 for `cpp::aggregate_size`)
