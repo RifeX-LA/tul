@@ -4,6 +4,7 @@
 #include <utility>
 #include <ostream>
 #include <tuple>
+#include <functional>
 
 namespace cpp {
 
@@ -88,7 +89,7 @@ namespace cpp {
 #endif // __cplusplus >= 202002L
 
     template <typename Tuple>
-    using make_tuple_index_seq = std::make_index_sequence<std::tuple_size_v<Tuple>>;
+    using make_tuple_index_seq = std::make_index_sequence<std::tuple_size_v<std::decay_t<Tuple>>>;
 
     namespace detail {
 
@@ -124,19 +125,32 @@ namespace cpp {
             (is >> ... >> std::get<Is>(tuple));
         }
 
+        template <typename Tuple, typename Fn, std::size_t ... Is>
+        constexpr void for_each(Tuple&& tuple, Fn&& fn, std::index_sequence<Is...>) {
+            (std::invoke(std::forward<Fn>(fn), std::get<Is>(std::forward<Tuple>(tuple))), ...);
+        }
+
     }
 
     /**
-     * @brief returns a type T constructed from a tuple-like object Tuple
+     * @brief calls callable object <b>fn</b> for each element of tuple-like object <b>tuple</b>
+    */
+    template <typename Tuple, typename Fn>
+    constexpr void for_each(Tuple&& tuple, Fn&& fn) {
+        detail::for_each(std::forward<Tuple>(tuple), std::forward<Fn>(fn), make_tuple_index_seq<Tuple>{});
+    }
+
+    /**
+     * @brief returns a type <b>T</b> constructed from a tuple-like object <b>tuple</b>
      * @tparam T the type to construct
     */
     template <typename T, typename Tuple>
     [[nodiscard]] constexpr T from_tuple(Tuple&& tuple) {
-        return detail::from_tuple<T>(std::forward<Tuple>(tuple), make_tuple_index_seq<std::decay_t<Tuple>>{});
+        return detail::from_tuple<T>(std::forward<Tuple>(tuple), make_tuple_index_seq<Tuple>{});
     }
 
     /**
-     * @brief passes a tuple-like object Tuple to the ostream
+     * @brief passes a tuple-like object <b>tuple</b> to the <b>ostream</b>
      * @return ostream
     */
     template <typename CharT, typename Traits, typename Tuple>
@@ -146,7 +160,7 @@ namespace cpp {
     }
 
     /**
-     * @brief pass values from istream to a tuple-like object Tuple
+     * @brief pass values from <b>istream</b> to a tuple-like object <b>tuple</b>
      * @return istream
     */
     template <typename CharT, typename Traits, typename Tuple>

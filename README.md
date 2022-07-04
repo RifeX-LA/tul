@@ -60,6 +60,26 @@ Features:
    ```
    3
    ```
+   
+5. For each cycle for tuple-like object elements
+   ```c++
+   using cpp::operator <<;
+   
+   void triple(int& n) {
+        n *= 3;
+   } 
+   
+   ...
+   
+   std::tuple<int, int, int> tuple {1, 2, 3};
+   cpp::for_each(tuple, triple);
+   std::cout << tuple;
+   ```
+   
+   Output
+   ```
+   {3, 6, 9}
+   ```
 
 # Usage
 Include the header `utilities.hpp`. Nothing to compile
