@@ -8,7 +8,7 @@
 
 namespace cpp {
 
-#if __cplusplus >= 202002L
+#if (defined(_MSVC_LANG) && _MSVC_LANG >= 202002L || __cplusplus >= 202002L)
 
     namespace detail {
 
@@ -86,7 +86,7 @@ namespace cpp {
     template <typename T>
     constexpr std::size_t aggregate_size_v = aggregate_size<T>::value;
 
-#endif // __cplusplus >= 202002L
+#endif // (defined(_MSVC_LANG) && _MSVC_LANG >= 202002L || __cplusplus >= 202002L)
 
     template <typename Tuple>
     using make_tuple_index_seq = std::make_index_sequence<std::tuple_size_v<std::decay_t<Tuple>>>;
