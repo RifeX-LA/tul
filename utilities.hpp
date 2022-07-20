@@ -1,97 +1,27 @@
 #ifndef UTILITIES_HPP
 #define UTILITIES_HPP
 
-#include <utility>
 #include <ostream>
 #include <tuple>
 #include <functional>
 
-namespace cpp {
+#if (defined(_MSVC_LANG) && _MSVC_LANG >= 202002L || __cplusplus >= 202002L) //C++20
+    #include <aggregate_size.hpp>
+#else
+    #include <utility>
+#endif
 
-#if (defined(_MSVC_LANG) && _MSVC_LANG >= 202002L || __cplusplus >= 202002L)
-
-    namespace detail {
-
-        template <std::size_t>
-        struct indexed_any {
-            template <typename T>
-            constexpr operator T() const noexcept;
-        };
-
-        template <typename T, typename ... Args>
-        concept list_initializable = requires { T{std::declval<Args>()...}; };
-
-        template <typename T, typename ... Args>
-        concept aggregate_initializable = std::is_aggregate_v<T> && list_initializable<T, Args...>;
-
-        template <typename T, typename Indices>
-        struct aggregate_init_with_n_args_impl {};
-
-        template <typename T, std::size_t ... Is>
-        struct aggregate_init_with_n_args_impl<T, std::index_sequence<Is...>> :
-                std::bool_constant<aggregate_initializable<T, indexed_any<Is>...>> {};
-
-        template <typename T, std::size_t N>
-        concept aggregate_init_with_n_args = aggregate_init_with_n_args_impl<T, std::make_index_sequence<N>>::value;
-
-        template <typename T, typename Is, typename NestedIs>
-        struct nested_aggregate_init_impl {};
-
-        template <typename T, std::size_t ... Is, std::size_t ... NestedIs>
-        struct nested_aggregate_init_impl<T, std::index_sequence<Is...>, std::index_sequence<NestedIs...>> :
-                std::bool_constant<requires { T{std::declval<indexed_any<Is>>()...,
-                                                {std::declval<indexed_any<NestedIs>>()...}}; }> {};
-
-        template <typename T, std::size_t N, std::size_t M>
-        concept nested_aggregate_init = nested_aggregate_init_impl<T, std::make_index_sequence<N>,
-                                                                      std::make_index_sequence<M>>::value;
-
-        template <typename T, std::size_t N>
-        concept theoretic_initializable = (N <= sizeof(T));
-
-        template <typename T, std::size_t N, std::size_t M, bool IsInitializable>
-        struct nested_aggregate_size_impl : nested_aggregate_size_impl<T, N, M + 1, theoretic_initializable<T, M + 1>
-                                                                                    && nested_aggregate_init<T, N, M + 1>> {};
-
-        template <typename T, std::size_t N, std::size_t M>
-        struct nested_aggregate_size_impl<T, N, M, false> : std::integral_constant<std::size_t, M - 1> {};
-
-        template <typename T, std::size_t N>
-        struct nested_aggregate_size : nested_aggregate_size_impl<T, N, 0, true> {};
-
-        template <typename T, std::size_t N, bool IsInitializable>
-        struct aggregate_with_nested_size_impl : aggregate_with_nested_size_impl<T, N + 1,
-                                                    aggregate_init_with_n_args<T, N + 1>> {};
-
-        template <typename T, std::size_t N>
-        struct aggregate_with_nested_size_impl<T, N, false> : std::integral_constant<std::size_t, N - 1> {};
-
-        template <typename T>
-        struct aggregate_with_nested_size : aggregate_with_nested_size_impl<T, 0, true> {};
-
-        template <std::size_t NestedSize, std::size_t TotalFields>
-        constexpr std::size_t nested_step = NestedSize > TotalFields ? 1 : NestedSize;
-
-        template <typename T, std::size_t CurrField, std::size_t TotalFields, std::size_t Size>
-        struct aggregate_size_impl : aggregate_size_impl<T,
-                CurrField + nested_step<nested_aggregate_size<T, CurrField>::value, TotalFields>, TotalFields, Size + 1> {};
-
-        template <typename T, std::size_t TotalFields, std::size_t Size>
-        struct aggregate_size_impl<T, TotalFields, TotalFields, Size> : std::integral_constant<std::size_t, Size> {};
-    }
-
-    template <typename T>
-    struct aggregate_size : detail::aggregate_size_impl<T, 0, detail::aggregate_with_nested_size<T>::value, 0> {};
-
-    template <typename T>
-    constexpr std::size_t aggregate_size_v = aggregate_size<T>::value;
-
-#endif // (defined(_MSVC_LANG) && _MSVC_LANG >= 202002L || __cplusplus >= 202002L)
+namespace tutils {
 
     template <typename Tuple>
     using make_tuple_index_seq = std::make_index_sequence<std::tuple_size_v<std::decay_t<Tuple>>>;
 
     namespace detail {
+
+        template <typename Tuple, typename Fn, std::size_t ... Is>
+        constexpr void for_each(Tuple&& tuple, Fn&& fn, std::index_sequence<Is...>) {
+            (std::invoke(std::forward<Fn>(fn), std::get<Is>(std::forward<Tuple>(tuple))), ...);
+        }
 
         template <typename T, typename Tuple, std::size_t ... Is>
         [[nodiscard]] constexpr T from_tuple(Tuple&& tuple, std::index_sequence<Is...>) {
@@ -125,12 +55,7 @@ namespace cpp {
             (is >> ... >> std::get<Is>(tuple));
         }
 
-        template <typename Tuple, typename Fn, std::size_t ... Is>
-        constexpr void for_each(Tuple&& tuple, Fn&& fn, std::index_sequence<Is...>) {
-            (std::invoke(std::forward<Fn>(fn), std::get<Is>(std::forward<Tuple>(tuple))), ...);
-        }
-
-    }
+    } //namespace detail
 
     /**
      * @brief calls callable object <b>fn</b> for each element of tuple-like object <b>tuple</b>
@@ -169,6 +94,6 @@ namespace cpp {
         return is;
     }
 
-}
+} //namespace tutils
 
 #endif //UTILITIES_HPP

@@ -11,8 +11,8 @@ struct Person {
     }
 };
 
-using cpp::operator <<;
-using cpp::operator >>;
+using tutils::operator <<;
+using tutils::operator >>;
 
 void triple(int& n) {
     n *= 3;
@@ -20,20 +20,20 @@ void triple(int& n) {
 
 int main() {
     std::tuple<std::string, int, double> tuple1{"Peter", 10, 20};
-    auto p = cpp::from_tuple<Person>(tuple1);
+    auto p = tutils::from_tuple<Person>(tuple1);
 
     std::tuple<std::string, int> tuple2;
     std::cin >> tuple2;
 
     std::tuple<int, int, int> tuple3{1, 2, 3};
-    cpp::for_each(tuple3, triple);
+    tutils::for_each(tuple3, triple);
 
     std::cout << "Tuple1: " << tuple1 << std::endl;
     std::cout << "Tuple2: " << tuple2 << std::endl;
     std::cout << "Tuple3: " << tuple3 << std::endl;
     std::cout << "Person: " << p << std::endl;
 
-    std::cout << "Person fields count: " << cpp::aggregate_size_v<Person> << std::endl;
+    std::cout << "Person fields count: " << tutils::aggregate_size_v<Person> << std::endl;
 
     return 0;
 }
