@@ -13,14 +13,14 @@ Features:
     ...
     
     std::tuple<std::string, int, double> tuple {"Peter", 10, 20};
-    Person person = cpp::from_tuple<Person>(tuple);
+    Person person = tutils::from_tuple<Person>(tuple);
     ```
    `person` will contain values `Peter`, `10`, `20`
 
 
 2. Write tuple-like objects to ostream
    ```c++
-   using cpp::operator <<;
+   using tutils::operator <<;
 
    std::tuple<std::string, int, double> tuple {"Peter", 10, 20};
    std::cout << tuple;
@@ -32,8 +32,8 @@ Features:
    
 3. Put values from istream to tuple-like object
    ```c++
-   using cpp::operator <<;
-   using cpp::operator >>;
+   using tutils::operator <<;
+   using tutils::operator >>;
    
    std::tuple<std::string, int> tuple;
    std::cin >> tuple;
@@ -52,9 +52,9 @@ Features:
    
 4. Get aggregate type fields count (*since C++20*)
    ```c++
-   std::cout << cpp::aggregate_size_v<Person>;
+   std::cout << tutils::aggregate_size_v<Person>;
    or
-   std::cout << cpp::aggregate_size<Person>::value;
+   std::cout << tutils::aggregate_size<Person>::value;
    ```
    Output
    ```
@@ -63,7 +63,7 @@ Features:
    
 5. For each cycle for tuple-like object elements
    ```c++
-   using cpp::operator <<;
+   using tutils::operator <<;
    
    void triple(int& n) {
         n *= 3;
@@ -72,7 +72,7 @@ Features:
    ...
    
    std::tuple<int, int, int> tuple {1, 2, 3};
-   cpp::for_each(tuple, triple);
+   tutils::for_each(tuple, triple);
    std::cout << tuple;
    ```
    
@@ -82,7 +82,7 @@ Features:
    ```
 
 # Usage
-Include the header `utilities.hpp`. Nothing to compile
+Put the headers `utilities.hpp` and `aggregate_size.hpp` to your project. Include the header `utilities.hpp`. Nothing to compile
 
 # Requirements
-C++17 (C++20 for `cpp::aggregate_size`)
+C++17 (C++20 for `tutils::aggregate_size`)
