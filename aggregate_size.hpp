@@ -25,17 +25,17 @@ namespace tutils {
                     binary_search<Predicate, Begin, mid(Begin, End)>>> {};
 
 
-        template <typename T, typename ... Args>
+        template <typename T, typename... Args>
         concept list_initializable = requires { T{std::declval<Args>()...}; };
 
-        template <typename T, typename ... Args>
+        template <typename T, typename... Args>
         concept aggregate_initializable = std::is_aggregate_v<T> && list_initializable<T, Args...>;
 
 
         template <typename T, typename Indices>
         struct aggregate_init_with_n_args_impl {};
 
-        template <typename T, std::size_t ... Is>
+        template <typename T, std::size_t... Is>
         struct aggregate_init_with_n_args_impl<T, std::index_sequence<Is...>> :
             std::bool_constant<aggregate_initializable<T, indexed_any<Is>...>> {};
 
@@ -46,7 +46,7 @@ namespace tutils {
         template <typename T, typename Is, typename NestedIs>
         struct nested_aggregate_init_impl {};
 
-        template <typename T, std::size_t ... Is, std::size_t ... NestedIs>
+        template <typename T, std::size_t... Is, std::size_t... NestedIs>
         struct nested_aggregate_init_impl<T, std::index_sequence<Is...>, std::index_sequence<NestedIs...>> :
             std::bool_constant<requires { T{std::declval<indexed_any<Is>>()...,
                                             {std::declval<indexed_any<NestedIs>>()...}}; }> {};
