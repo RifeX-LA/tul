@@ -84,5 +84,14 @@ Features:
 # Usage
 Put the headers `utilities.hpp` and `aggregate_size.hpp` to your project. Include the header `utilities.hpp`. Nothing to compile
 
+# Tests
+For run tests you need to install `googletest` (for example from [here](https://github.com/google/googletest)) and put
+`googletest` folder to the `tests` directory.
+
+To build tests go to the `tests` directory and run `cmake CMakeLists.txt` and then `make`.
+
+Run `Google_Tests_run` file to start the tests
+
 # Requirements
-C++17 (C++20 for `tutils::aggregate_size`)
+C++17 (C++20 for `tutils::aggregate_size`) \
+`googletest` for run tests
