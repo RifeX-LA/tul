@@ -1,8 +1,8 @@
-#include <aggregate_size.hpp>
 #include <string>
 #include <vector>
 #include <thread>
 #include <mutex>
+#include <flow/tul/aggregate_size.hpp>
 
 struct Empty {};
 
@@ -49,12 +49,12 @@ struct Mixed2 {
     std::mutex c;
 };
 
-static_assert(tutils::aggregate_size_v<Empty> == 0);
-static_assert(tutils::aggregate_size_v<IntField> == 1);
-static_assert(tutils::aggregate_size_v<CharIntDoubleFields> == 3);
-static_assert(tutils::aggregate_size_v<ArrayField> == 1);
-static_assert(tutils::aggregate_size_v<ArrayIntFields> == 2);
-static_assert(tutils::aggregate_size_v<IntArrayFields> == 2);
-static_assert(tutils::aggregate_size_v<StringVectorFields> == 2);
-static_assert(tutils::aggregate_size_v<Mixed1> == 5);
-//static_assert(tutils::aggregate_size_v<Mixed2> == 2); --> NOT WORKING BECAUSE OF std::thread
+static_assert(flow::tul::aggregate_size_v<Empty> == 0);
+static_assert(flow::tul::aggregate_size_v<IntField> == 1);
+static_assert(flow::tul::aggregate_size_v<CharIntDoubleFields> == 3);
+static_assert(flow::tul::aggregate_size_v<ArrayField> == 1);
+static_assert(flow::tul::aggregate_size_v<ArrayIntFields> == 2);
+static_assert(flow::tul::aggregate_size_v<IntArrayFields> == 2);
+static_assert(flow::tul::aggregate_size_v<StringVectorFields> == 2);
+static_assert(flow::tul::aggregate_size_v<Mixed1> == 5);
+//static_assert(flow::tul::aggregate_size_v<Mixed2> == 2); --> NOT WORKING BECAUSE OF std::thread

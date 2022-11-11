@@ -13,14 +13,14 @@ Features:
     ...
     
     std::tuple<std::string, int, double> tuple {"Peter", 10, 20};
-    Person person = tutils::from_tuple<Person>(tuple);
+    Person person = flow::tul::from_tuple<Person>(tuple);
     ```
    `person` will contain values `Peter`, `10`, `20`
 
 
 2. Write tuple-like objects to ostream
    ```c++
-   using tutils::operator <<;
+   using flow::tul::operator <<;
 
    std::tuple<std::string, int, double> tuple {"Peter", 10, 20};
    std::cout << tuple;
@@ -32,8 +32,8 @@ Features:
    
 3. Put values from istream to tuple-like object
    ```c++
-   using tutils::operator <<;
-   using tutils::operator >>;
+   using flow::tul::operator <<;
+   using flow::tul::operator >>;
    
    std::tuple<std::string, int> tuple;
    std::cin >> tuple;
@@ -52,9 +52,9 @@ Features:
    
 4. Get aggregate type fields count (*since C++20*)
    ```c++
-   std::cout << tutils::aggregate_size_v<Person>;
+   std::cout << flow::tul::aggregate_size_v<Person>;
    or
-   std::cout << tutils::aggregate_size<Person>::value;
+   std::cout << flow::tul::aggregate_size<Person>::value;
    ```
    Output
    ```
@@ -63,7 +63,7 @@ Features:
    
 5. For each cycle for tuple-like object elements
    ```c++
-   using tutils::operator <<;
+   using flow::tul::operator <<;
    
    void triple(int& n) {
         n *= 3;
@@ -72,7 +72,7 @@ Features:
    ...
    
    std::tuple<int, int, int> tuple {1, 2, 3};
-   tutils::for_each(tuple, triple);
+   flow::tul::for_each(tuple, triple);
    std::cout << tuple;
    ```
    
@@ -82,7 +82,7 @@ Features:
    ```
 
 # Usage
-Put the headers `utilities.hpp` and `aggregate_size.hpp` to your project. Include the header `utilities.hpp`. Nothing to compile
+Put directory `flow` to your project and include `tul.hpp` header. Nothing to compile
 
 # Tests
 For run tests you need to install `googletest` (for example from [here](https://github.com/google/googletest)) and put
@@ -93,5 +93,5 @@ To build tests go to the `tests` directory and run `cmake CMakeLists.txt` and th
 Run `Google_Tests_run` file to start the tests
 
 # Requirements
-C++17 (C++20 for `tutils::aggregate_size`) \
+C++17 (C++20 for `flow::tul::aggregate_size`) \
 `googletest` for run tests

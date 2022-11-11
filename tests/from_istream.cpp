@@ -1,12 +1,12 @@
-#include <utilities.hpp>
 #include <gtest/gtest.h>
+#include <flow/tul/functions.hpp>
 
 template <typename Tuple>
 Tuple constructed_from_istream(const Tuple& tuple) {
-    using tutils::operator>>;
+    using flow::tul::operator>>;
 
     std::stringstream ss;
-    tutils::for_each(tuple, [&](const auto& arg) {ss << arg << ' ';});
+    flow::tul::for_each(tuple, [&](const auto& arg) {ss << arg << ' ';});
     Tuple res{};
     ss >> res;
 

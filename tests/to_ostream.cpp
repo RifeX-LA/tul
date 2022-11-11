@@ -1,10 +1,10 @@
-#include <utilities.hpp>
 #include <fstream>
 #include <gtest/gtest.h>
+#include <flow/tul/functions.hpp>
 
 template <typename Tuple>
 std::string get_tuple_string(const Tuple& tuple) {
-    using tutils::operator<<;
+    using flow::tul::operator<<;
 
     std::ostringstream oss;
     oss << tuple;

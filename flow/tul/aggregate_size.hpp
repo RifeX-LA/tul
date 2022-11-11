@@ -1,9 +1,8 @@
-#ifndef AGGREGATE_SIZE_HPP
-#define AGGREGATE_SIZE_HPP
+#pragma once
 
 #include <utility>
 
-namespace tutils {
+namespace flow::tul {
 
     namespace detail {
 
@@ -92,6 +91,4 @@ namespace tutils {
     template <typename T>
     constexpr std::size_t aggregate_size_v = aggregate_size<T>::value;
 
-} //namespace tutils
-
-#endif //AGGREGATE_SIZE_HPP
+} //namespace flow::tul

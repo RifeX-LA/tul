@@ -1,5 +1,5 @@
 #include <iostream>
-#include <utilities.hpp>
+#include <flow/tul.hpp>
 
 struct Person {
     std::string name;
@@ -11,8 +11,8 @@ struct Person {
     }
 };
 
-using tutils::operator <<;
-using tutils::operator >>;
+using flow::tul::operator <<;
+using flow::tul::operator >>;
 
 void triple(int& n) {
     n *= 3;
@@ -20,20 +20,20 @@ void triple(int& n) {
 
 int main() {
     std::tuple<std::string, int, double> tuple1{"Peter", 10, 20};
-    auto p = tutils::from_tuple<Person>(tuple1);
+    auto p = flow::tul::from_tuple<Person>(tuple1);
 
     std::tuple<std::string, int> tuple2;
     std::cin >> tuple2;
 
     std::tuple<int, int, int> tuple3{1, 2, 3};
-    tutils::for_each(tuple3, triple);
+    flow::tul::for_each(tuple3, triple);
 
     std::cout << "Tuple1: " << tuple1 << std::endl;
     std::cout << "Tuple2: " << tuple2 << std::endl;
     std::cout << "Tuple3: " << tuple3 << std::endl;
     std::cout << "Person: " << p << std::endl;
 
-    std::cout << "Person fields count: " << tutils::aggregate_size_v<Person> << std::endl;
+    std::cout << "Person fields count: " << flow::tul::aggregate_size_v<Person> << std::endl;
 
     return 0;
 }
