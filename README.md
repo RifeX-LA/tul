@@ -20,10 +20,8 @@ Features:
 
 2. Write tuple-like objects to ostream
    ```c++
-   using flow::tul::operator <<;
-
    std::tuple<std::string, int, double> tuple {"Peter", 10, 20};
-   std::cout << tuple;
+   std::cout << flow::tul::io(tuple);
    ```
    Output
    ```
@@ -32,12 +30,9 @@ Features:
    
 3. Put values from istream to tuple-like object
    ```c++
-   using flow::tul::operator <<;
-   using flow::tul::operator >>;
-   
    std::tuple<std::string, int> tuple;
-   std::cin >> tuple;
-   std::cout << tuple;
+   std::cin >> flow::tul::io(tuple);
+   std::cout << flow::tul::io(tuple);
    ```
    Input
    ```
@@ -53,7 +48,9 @@ Features:
 4. Get aggregate type fields count (*since C++20*)
    ```c++
    std::cout << flow::tul::aggregate_size_v<Person>;
+   ```
    or
+   ```c++
    std::cout << flow::tul::aggregate_size<Person>::value;
    ```
    Output
@@ -63,17 +60,15 @@ Features:
    
 5. For each cycle for tuple-like object elements
    ```c++
-   using flow::tul::operator <<;
-   
-   void triple(int& n) {
+   void mult_by_3(int& n) {
         n *= 3;
    } 
    
    ...
    
    std::tuple<int, int, int> tuple {1, 2, 3};
-   flow::tul::for_each(tuple, triple);
-   std::cout << tuple;
+   flow::tul::for_each(tuple, mult_by_3);
+   std::cout << flow::tul::io(tuple);
    ```
    
    Output
