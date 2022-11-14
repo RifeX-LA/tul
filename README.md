@@ -45,20 +45,7 @@ Features:
    {"Hello", 5}
    ```
    
-4. Get aggregate type fields count (*since C++20*)
-   ```c++
-   std::cout << flow::tul::aggregate_size_v<Person>;
-   ```
-   or
-   ```c++
-   std::cout << flow::tul::aggregate_size<Person>::value;
-   ```
-   Output
-   ```
-   3
-   ```
-   
-5. For each cycle for tuple-like object elements
+4. For each cycle for tuple-like object elements
    ```c++
    void mult_by_3(int& n) {
         n *= 3;
@@ -74,6 +61,20 @@ Features:
    Output
    ```
    {3, 6, 9}
+   ```
+
+
+5. Get aggregate type fields count (*since C++20*)
+   ```c++
+   std::cout << flow::tul::aggregate_size_v<Person>;
+   ```
+   or
+   ```c++
+   std::cout << flow::tul::aggregate_size<Person>::value;
+   ```
+   Output
+   ```
+   3
    ```
 
 # Usage

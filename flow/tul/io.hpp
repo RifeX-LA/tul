@@ -3,6 +3,7 @@
 #include <ostream>
 #include <iomanip>
 #include <flow/tul/functions.hpp>
+#include <flow/tul/detail/io.hpp>
 
 namespace flow::tul {
 
@@ -12,35 +13,21 @@ namespace flow::tul {
         struct io_impl {
             Tuple&& tuple;
 
-            template <typename CharT, typename Traits, typename Arg>
-            static void pass_value_to_ostream(std::basic_ostream<CharT, Traits>& os, Arg&& arg, std::size_t& args_count) {
-                if constexpr (std::is_constructible_v<std::basic_string_view<CharT, Traits>, Arg>) {
-                    os << std::quoted(std::basic_string_view<CharT, Traits>(std::forward<Arg>(arg)));
-                }
-                else {
-                    os << arg;
-                }
-
-                if (--args_count) {
-                    os << ", ";
-                }
-            }
-
             template <typename CharT, typename Traits>
-            friend std::basic_ostream<CharT, Traits>& operator << (std::basic_ostream<CharT, Traits>& os, io_impl&& io) {
-                std::size_t args_count = std::tuple_size_v<std::remove_reference_t<Tuple>>;
-                auto to_ostream = [&](auto&& arg) {pass_value_to_ostream(os, std::forward<decltype(arg)>(arg), args_count);};
-
+            friend std::basic_ostream<CharT, Traits>& operator<<(std::basic_ostream<CharT, Traits>& os, io_impl&& io) {
                 os << '{';
-                flow::tul::for_each(std::forward<Tuple>(io.tuple), to_ostream);
+                flow::tul::for_each(std::forward<Tuple>(io.tuple), print_impl<CharT, Traits>{os, tuple_size_v<Tuple>});
                 os << '}';
 
                 return os;
             }
 
             template <typename CharT, typename Traits>
-            friend std::basic_istream<CharT, Traits>& operator >> (std::basic_istream<CharT, Traits>& is, io_impl&& io) {
-                flow::tul::for_each(std::forward<Tuple>(io.tuple), [&](auto& arg){is >> arg;});
+            friend std::basic_istream<CharT, Traits>& operator>>(std::basic_istream<CharT, Traits>& is, io_impl&& io) {
+                read_and_validate(is, '{');
+                flow::tul::for_each(std::forward<Tuple>(io.tuple), read_impl<CharT, Traits>{is, tuple_size_v<Tuple>});
+                read_and_validate(is, '}');
+
                 return is;
             }
         };

@@ -4,6 +4,9 @@
 
 namespace flow::tul::detail {
 
+    template <typename Tuple>
+    inline constexpr std::size_t tuple_size_v = std::tuple_size_v<std::remove_reference_t<Tuple>>;
+
     ///////////////// HELPING ALIASES
 
     template<typename Tuple>

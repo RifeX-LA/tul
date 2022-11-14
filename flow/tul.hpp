@@ -1,9 +1,7 @@
 #pragma once
 
-#define MIN_STDCPP_VER(ver) (defined(_MSVC_LANG) && _MSVC_LANG >= ver || __cplusplus >= ver)
-
 #include <flow/tul/io.hpp>
 
-#if MIN_STDCPP_VER(202002L) //C++20
+#ifdef __cpp_concepts
     #include <flow/tul/aggregate_size.hpp>
-#endif //C++20
+#endif //__cpp_concepts
