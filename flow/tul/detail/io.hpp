@@ -25,10 +25,10 @@ namespace flow::tul::detail {
     }
 
     template <typename CharT, typename Traits>
-    void read_and_validate(std::basic_istream<CharT, Traits>& is, CharT c) {
-        CharT ignored{};
-        is >> ignored;
-        if (ignored != c) {
+    void validate_next(std::basic_istream<CharT, Traits>& is, CharT expected) {
+        CharT actual{};
+        is >> actual;
+        if (actual != expected) {
             is.setstate(std::basic_istream<CharT, Traits>::failbit);
         }
     }
@@ -56,7 +56,7 @@ namespace flow::tul::detail {
         void operator()(T&& value) {
             is >> formatted(std::forward<T>(value));
             if (--n_args) {
-                read_and_validate(is, ',');
+                validate_next(is, ',');
             }
         }
     };

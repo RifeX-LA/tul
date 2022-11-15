@@ -1,7 +1,6 @@
 #pragma once
 
 #include <ostream>
-#include <iomanip>
 #include <flow/tul/functions.hpp>
 #include <flow/tul/detail/io.hpp>
 
@@ -24,9 +23,9 @@ namespace flow::tul {
 
             template <typename CharT, typename Traits>
             friend std::basic_istream<CharT, Traits>& operator>>(std::basic_istream<CharT, Traits>& is, io_impl&& io) {
-                read_and_validate(is, '{');
+                validate_next(is, '{');
                 flow::tul::for_each(std::forward<Tuple>(io.tuple), read_impl<CharT, Traits>{is, tuple_size_v<Tuple>});
-                read_and_validate(is, '}');
+                validate_next(is, '}');
 
                 return is;
             }
