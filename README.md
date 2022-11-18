@@ -13,17 +13,15 @@ Features:
     ...
     
     std::tuple<std::string, int, double> tuple {"Peter", 10, 20};
-    Person person = tutils::from_tuple<Person>(tuple);
+    Person person = flow::tul::from_tuple<Person>(tuple);
     ```
    `person` will contain values `Peter`, `10`, `20`
 
 
 2. Write tuple-like objects to ostream
    ```c++
-   using tutils::operator <<;
-
    std::tuple<std::string, int, double> tuple {"Peter", 10, 20};
-   std::cout << tuple;
+   std::cout << flow::tul::io(tuple);
    ```
    Output
    ```
@@ -32,12 +30,9 @@ Features:
    
 3. Put values from istream to tuple-like object
    ```c++
-   using tutils::operator <<;
-   using tutils::operator >>;
-   
    std::tuple<std::string, int> tuple;
-   std::cin >> tuple;
-   std::cout << tuple;
+   std::cin >> flow::tul::io(tuple);
+   std::cout << flow::tul::io(tuple);
    ```
    Input
    ```
@@ -50,30 +45,17 @@ Features:
    {"Hello", 5}
    ```
    
-4. Get aggregate type fields count (*since C++20*)
+4. For each cycle for tuple-like object elements
    ```c++
-   std::cout << tutils::aggregate_size_v<Person>;
-   or
-   std::cout << tutils::aggregate_size<Person>::value;
-   ```
-   Output
-   ```
-   3
-   ```
-   
-5. For each cycle for tuple-like object elements
-   ```c++
-   using tutils::operator <<;
-   
-   void triple(int& n) {
+   void mult_by_3(int& n) {
         n *= 3;
    } 
    
    ...
    
    std::tuple<int, int, int> tuple {1, 2, 3};
-   tutils::for_each(tuple, triple);
-   std::cout << tuple;
+   flow::tul::for_each(tuple, mult_by_3);
+   std::cout << flow::tul::io(tuple);
    ```
    
    Output
@@ -81,11 +63,26 @@ Features:
    {3, 6, 9}
    ```
 
+
+5. Get aggregate type fields count (*since C++20*)
+   ```c++
+   std::cout << flow::tul::aggregate_size_v<Person>;
+   ```
+   or
+   ```c++
+   std::cout << flow::tul::aggregate_size<Person>::value;
+   ```
+   Output
+   ```
+   3
+   ```
+
 # Usage
-Put the headers `utilities.hpp` and `aggregate_size.hpp` to your project. Include the header `utilities.hpp`. Nothing to compile
+Put directory `flow` to your project and include `tul.hpp` header. Nothing to build
 
 # Tests
-For run tests you need to install `googletest` (for example from [here](https://github.com/google/googletest)) and put
+For run tests you need to install `googletest` (for example from [here](https://github.com/google/googletest)),
+build ([how to build](https://github.com/google/googletest/blob/main/googletest/README.md)) and put
 `googletest` folder to the `tests` directory.
 
 To build tests go to the `tests` directory and run `cmake CMakeLists.txt` and then `make`.
@@ -93,5 +90,5 @@ To build tests go to the `tests` directory and run `cmake CMakeLists.txt` and th
 Run `Google_Tests_run` file to start the tests
 
 # Requirements
-C++17 (C++20 for `tutils::aggregate_size`) \
+C++17 (C++20 for `flow::tul::aggregate_size`) \
 `googletest` for run tests

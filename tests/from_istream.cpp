@@ -1,14 +1,12 @@
-#include <utilities.hpp>
 #include <gtest/gtest.h>
+#include <flow/tul.hpp>
 
 template <typename Tuple>
 Tuple constructed_from_istream(const Tuple& tuple) {
-    using tutils::operator>>;
-
     std::stringstream ss;
-    tutils::for_each(tuple, [&](const auto& arg) {ss << arg << ' ';});
+    ss << flow::tul::io(tuple);
     Tuple res{};
-    ss >> res;
+    ss >> flow::tul::io(res);
 
     return res;
 }
@@ -30,7 +28,7 @@ TEST(from_istream, IntStringTuple) {
 
 TEST(from_istream, IntTwoWordStringTuple) {
     std::tuple<int, std::string> tuple{42, "Hello world"};
-    EXPECT_NE(constructed_from_istream(tuple), tuple);
+    EXPECT_EQ(constructed_from_istream(tuple), tuple);
 }
 
 TEST(from_istream, ManyFieldsTuple) {
@@ -43,11 +41,11 @@ struct UserStruct {
     std::string str;
 
     friend std::ostream& operator << (std::ostream& os, const UserStruct& us) {
-        return os << us.a << ' ' << us.str;
+        return os << us.a << ' ' << std::quoted(us.str);
     }
 
     friend std::istream& operator >> (std::istream& is, UserStruct& us) {
-        return is >> us.a >> us.str;
+        return is >> us.a >> std::quoted(us.str);
     }
 
     bool operator == (const UserStruct& other) const noexcept {
