@@ -1,13 +1,11 @@
 #include <fstream>
 #include <gtest/gtest.h>
-#include <flow/tul/functions.hpp>
+#include <flow/tul.hpp>
 
 template <typename Tuple>
 std::string get_tuple_string(const Tuple& tuple) {
-    using flow::tul::operator<<;
-
     std::ostringstream oss;
-    oss << tuple;
+    oss << flow::tul::io(tuple);
     return oss.str();
 }
 

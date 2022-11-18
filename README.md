@@ -78,10 +78,11 @@ Features:
    ```
 
 # Usage
-Put directory `flow` to your project and include `tul.hpp` header. Nothing to compile
+Put directory `flow` to your project and include `tul.hpp` header. Nothing to build
 
 # Tests
-For run tests you need to install `googletest` (for example from [here](https://github.com/google/googletest)) and put
+For run tests you need to install `googletest` (for example from [here](https://github.com/google/googletest)),
+build ([how to build](https://github.com/google/googletest/blob/main/googletest/README.md)) and put
 `googletest` folder to the `tests` directory.
 
 To build tests go to the `tests` directory and run `cmake CMakeLists.txt` and then `make`.

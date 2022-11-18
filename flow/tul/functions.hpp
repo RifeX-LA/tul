@@ -1,7 +1,7 @@
 #pragma once
 
 #include <functional>
-#include <flow/tul/traits.hpp>
+#include <flow/tul/detail/traits.hpp>
 
 namespace flow::tul {
 

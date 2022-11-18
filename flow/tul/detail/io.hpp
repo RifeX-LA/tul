@@ -14,6 +14,11 @@ namespace flow::tul::detail {
         return std::quoted(s);
     }
 
+    template <typename CharT>
+    auto formatted(const CharT* s) noexcept {
+        return std::quoted(s);
+    }
+
     template <typename CharT, typename Traits>
     auto formatted(std::basic_string_view<CharT, Traits> sv) noexcept {
         return std::quoted(sv);
