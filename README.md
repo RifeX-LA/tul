@@ -91,7 +91,7 @@ and go to the next step.
    If you don't have `googletest`, then clone repository using this command
 
    ```
-   git clone --recurse-submodules https://github.com/RifeX-LA/Tuple-Utilities.git
+   git clone --recurse-submodules https://github.com/RifeX-LA/tul.git
    ```
    
    or if you already cloned this repository you need to clone googletest repository to the `tests` directory using this command
