@@ -36,7 +36,7 @@ Features:
    ```
    Input
    ```
-   Hello 5
+   {"Hello", 5}
    ```
    
    Output
@@ -81,13 +81,42 @@ Features:
 Put directory `flow` to your project and include `tul.hpp` header. Nothing to build
 
 # Tests
-For run tests you need to install `googletest` (for example from [here](https://github.com/google/googletest)),
-build ([how to build](https://github.com/google/googletest/blob/main/googletest/README.md)) and put
-`googletest` folder to the `tests` directory.
+`googletest` is required for run tests.
 
-To build tests go to the `tests` directory and run `cmake CMakeLists.txt` and then `make`.
+To run tests follow this steps:
 
-Run `Google_Tests_run` file to start the tests
+1. If you already have `googletest` downloaded and built, then you can just put it to the `tests` directory
+and go to the next step.
+
+   If you don't have `googletest`, then clone repository using this command
+
+   ```
+   git clone --recurse-submodules https://github.com/RifeX-LA/tul.git
+   ```
+   
+   or if you already cloned this repository you need to clone googletest repository to the `tests` directory using this command
+   ```
+   git clone https://github.com/google/googletest.git
+   ```
+
+2. To build tests in the `tests` directory:
+
+   ```
+   mkdir build
+   cd build
+   cmake ..
+   ```
+
+   On *nix system run
+   
+   ```
+   make
+   ```
+   
+   On Windows system you can build project using Visual Studio
+
+
+3. Run `Google_Tests_run` file to start the tests
 
 # Requirements
 C++17 (C++20 for `flow::tul::aggregate_size`) \
