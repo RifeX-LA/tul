@@ -36,24 +36,24 @@ TEST(from_istream, ManyFieldsTuple) {
     EXPECT_EQ(constructed_from_istream(tuple), tuple);
 }
 
-struct UserStruct {
+struct AnotherUserStruct {
     int a;
     std::string str;
 
-    friend std::ostream& operator << (std::ostream& os, const UserStruct& us) {
+    friend std::ostream& operator<<(std::ostream& os, const AnotherUserStruct& us) {
         return os << us.a << ' ' << std::quoted(us.str);
     }
 
-    friend std::istream& operator >> (std::istream& is, UserStruct& us) {
+    friend std::istream& operator>>(std::istream& is, AnotherUserStruct& us) {
         return is >> us.a >> std::quoted(us.str);
     }
 
-    bool operator == (const UserStruct& other) const noexcept {
+    bool operator==(const AnotherUserStruct& other) const noexcept {
         return a == other.a && str == other.str;
     }
 };
 
 TEST(from_istream, UserStructTuple) {
-    std::tuple<int, UserStruct, char> tuple{42, {10, "Hello"}, 'c'};
+    std::tuple<int, AnotherUserStruct, char> tuple{42, {10, "Hello"}, 'c'};
     EXPECT_EQ(constructed_from_istream(tuple), tuple);
 }

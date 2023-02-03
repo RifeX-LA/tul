@@ -10,4 +10,4 @@ namespace flow::tul {
     template <typename T>
     inline constexpr std::size_t aggregate_size_v = aggregate_size<T>::value;
 
-} //namespace flow::tul
+} // namespace flow::tul
