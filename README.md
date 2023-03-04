@@ -130,6 +130,6 @@ and go to the next step.
 3. Run `Google_Tests_run` file to start the tests
 
 # Requirements
-C++17 \
-C++20 for `flow::tul::aggregate_size` \
-`googletest` for run tests
+1. C++17 (C++20 for `flow::tul::aggregate_size`)
+2. `boost` library
+3. `googletest` for run tests
