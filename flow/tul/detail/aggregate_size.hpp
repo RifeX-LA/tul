@@ -81,4 +81,4 @@ namespace flow::tul::detail {
     template <typename T, std::size_t TotalFields, std::size_t Size>
     struct aggregate_size_impl<T, TotalFields, TotalFields, Size> : std::integral_constant<std::size_t, Size> {};
 
-} //namespace flow::tul::detail
+} // namespace flow::tul::detail

@@ -25,10 +25,21 @@ Features:
    ```
    Output
    ```
-   {"Peter", 10, 20}
+   ("Peter", 10, 20)
+   ```
+
+3. Write tuple-like object to ostream using custom separator
+    ```c++
+   std::tuple<std::string, char> tuple {"Peter", 'k'};
+   std::cout << flow::tul::io(tuple, " * ");
+   ```
+   Output
+   ```
+   "Peter" * 'k'
    ```
    
-3. Put values from istream to tuple-like object
+   
+4. Put values from istream to tuple-like object (also supports custom separator)
    ```c++
    std::tuple<std::string, int> tuple;
    std::cin >> flow::tul::io(tuple);
@@ -36,16 +47,16 @@ Features:
    ```
    Input
    ```
-   {"Hello", 5}
+   ("Hello", 5)
    ```
    
    Output
    
    ```
-   {"Hello", 5}
+   ("Hello", 5)
    ```
    
-4. For each cycle for tuple-like object elements
+5. For each cycle for tuple-like object elements
    ```c++
    void mult_by_3(int& n) {
         n *= 3;
@@ -60,11 +71,11 @@ Features:
    
    Output
    ```
-   {3, 6, 9}
+   (3, 6, 9)
    ```
 
 
-5. Get aggregate type fields count (*since C++20*)
+6. Get aggregate type fields count (*since C++20*)
    ```c++
    std::cout << flow::tul::aggregate_size_v<Person>;
    ```
@@ -119,5 +130,6 @@ and go to the next step.
 3. Run `Google_Tests_run` file to start the tests
 
 # Requirements
-C++17 (C++20 for `flow::tul::aggregate_size`) \
-`googletest` for run tests
+1. C++17 (C++20 for `flow::tul::aggregate_size`)
+2. `boost` library
+3. `googletest` for run tests
